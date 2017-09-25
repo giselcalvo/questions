@@ -1,0 +1,16 @@
+<h1>Q&A</h1>
+
+
+
+<form (submit)="login()">
+	
+	<p>Name: <input type="text" name="name"
+		required [(ngModel)]="user.name" #name="ngModel" >
+	</p>
+		
+	<input type="submit" name="" value="enter">
+</form>
+
+<p *ngIf="name.errors">Name is required</p>
+
+<!-- {{name.errors | json}} -->

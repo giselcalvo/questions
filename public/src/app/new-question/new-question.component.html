@@ -1,0 +1,16 @@
+<a [routerLink]="['/']">Home</a>
+<a href="">Logout</a>
+
+<form (submit)="addQuestion()">
+	<p>Question <input type="text" name="title"
+		[(ngModel)]="newQuestion.title">
+	</p>
+	<p>Description <input type="text" name="Description"
+		[(ngModel)]="newQuestion.description">
+	</p>
+	
+	<a [routerLink]="['/']"> <button>Cancel</button> </a>
+
+	<input type="submit" name="">
+
+</form>
