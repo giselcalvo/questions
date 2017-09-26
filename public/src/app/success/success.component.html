@@ -2,7 +2,9 @@
 <hr>
 <a [routerLink]="['/new_question']">Add a Question</a>
 
-<p>Search <input type="text" name="search"></p>
+<p>Search <input type="text" name="search"
+	[(ngModel)]="searchTerm" #search= "ngModel" (keyup)="searchQuestions()">
+</p>
 
 <table>
 	<tr>

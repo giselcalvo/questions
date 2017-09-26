@@ -444,7 +444,6 @@ var NewAnswerComponent = (function () {
     };
     NewAnswerComponent.prototype.addAnswer = function () {
         var _this = this;
-        console.log("8-8-8--8-8-8-8-8--8-");
         this.newAnswer["user"] = this.currentUser["name"];
         console.log("in new-answer.components.ts addQuestion: ", this.newAnswer);
         console.log("This is the question id:", this.question["_id"]);
@@ -768,7 +767,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/success/success.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2>Hi {{currentUser.name}} !</h2> <a (click)=\"logout()\">Logout</a>\n<hr>\n<a [routerLink]=\"['/new_question']\">Add a Question</a>\n\n<p>Search <input type=\"text\" name=\"search\"></p>\n\n<table>\n\t<tr>\n\t\t<th>Question</th>\n\t\t<th>Answers</th>\n\t\t<th>Action</th>\n\t</tr>\n\t<tr *ngFor=\"let question of questions\">\n\t\t<td>{{question.title}}</td>\n\t\t<td>{{question[\"answers\"].length}}</td>\n\t\t<td><a [routerLink]=\"['/question', question._id]\" >Show</a> \n\n\t\t\t<a [routerLink]=\"['/question', question._id, 'new_answer']\">Answer</a></td>\n\n\t</tr>\n</table>\n\n<!-- <p>Name: {{currentUser.name}}</p>\n<p>Email: {{currentUser.email}}</p>\n<p>Username: {{currentUser.username}}</p> -->"
+module.exports = "<h2>Hi {{currentUser.name}} !</h2> <a (click)=\"logout()\">Logout</a>\n<hr>\n<a [routerLink]=\"['/new_question']\">Add a Question</a>\n\n<p>Search <input type=\"text\" name=\"search\"\n\t[(ngModel)]=\"searchTerm\" #search= \"ngModel\" (keyup)=\"searchQuestions()\">\n</p>\n\n<table>\n\t<tr>\n\t\t<th>Question</th>\n\t\t<th>Answers</th>\n\t\t<th>Action</th>\n\t</tr>\n\t<tr *ngFor=\"let question of questions\">\n\t\t<td>{{question.title}}</td>\n\t\t<td>{{question[\"answers\"].length}}</td>\n\t\t<td><a [routerLink]=\"['/question', question._id]\" >Show</a> \n\n\t\t\t<a [routerLink]=\"['/question', question._id, 'new_answer']\">Answer</a></td>\n\n\t</tr>\n</table>\n\n<!-- <p>Name: {{currentUser.name}}</p>\n<p>Email: {{currentUser.email}}</p>\n<p>Username: {{currentUser.username}}</p> -->"
 
 /***/ }),
 
@@ -801,6 +800,7 @@ var SuccessComponent = (function () {
         this._router = _router;
         this.currentUser = { name: '', username: '', email: '' };
         this.questions = [];
+        this.searchTerm = "";
     }
     SuccessComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -825,10 +825,12 @@ var SuccessComponent = (function () {
             if (data.errors) {
                 console.log("failed to get questions");
                 _this._router.navigate(['/']);
+                return false;
             }
             else {
                 console.log("found cquestions/");
                 _this.questions = data;
+                return _this.questions;
             }
         });
     };
@@ -845,6 +847,15 @@ var SuccessComponent = (function () {
                 console.log("User has been logged out");
                 _this._router.navigate(['login']);
             }
+        });
+    };
+    SuccessComponent.prototype.searchQuestions = function () {
+        var _this = this;
+        if (this.searchTerm == "") {
+            this.getQuestions();
+        }
+        this.questions = this.questions.filter(function (question) {
+            return question.title.includes(_this.searchTerm);
         });
     };
     return SuccessComponent;

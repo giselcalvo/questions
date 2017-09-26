@@ -14,6 +14,7 @@ export class SuccessComponent implements OnInit {
   constructor(private _questionService: QuestionService, private _logRegService: LoginRegService, private _router: Router) { }
 
   questions = [];
+  searchTerm = "";
 
   ngOnInit() {
   	this._logRegService.getCurrentUser()
@@ -38,9 +39,11 @@ export class SuccessComponent implements OnInit {
       if (data.errors){
         console.log("failed to get questions");
         this._router.navigate(['/']);
+        return false;
       }else{
         console.log("found cquestions/");
           this.questions = data;
+          return this.questions;
       }
     })
   }
@@ -59,6 +62,16 @@ export class SuccessComponent implements OnInit {
     })
 
 
+  }
+
+  searchQuestions(){
+    if(this.searchTerm == ""){
+       this.getQuestions();
+    }
+   
+    this.questions = this.questions.filter((question)=>{
+      return question.title.includes(this.searchTerm);
+    })
   }
 
 }

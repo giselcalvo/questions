@@ -56,7 +56,7 @@ export class NewAnswerComponent implements OnInit {
   }
 
   addAnswer(){
-  	console.log("8-8-8--8-8-8-8-8--8-")
+  	
     this.newAnswer["user"] = this.currentUser["name"]
   	console.log("in new-answer.components.ts addQuestion: ", this.newAnswer)
   	console.log("This is the question id:", this.question["_id"]);
